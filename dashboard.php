@@ -30,31 +30,21 @@ include 'includes/search.php';
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard</title>
+    <title>CAMS - Dashboard</title>
     <link rel="stylesheet" href="includes/design.css">
+    <link rel="icon" type="image/png" href="icon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 
 
 
 <?php include 'includes/bgcolor.html'; ?>
-
-
-
     <?php include 'includes/navbars.php'; ?>
     <main>
-        
-    
-    
         <?php include 'includes/content.php'; ?>
     </main>
-
-
     <?php include 'includes/modalNotif.html'; ?>
-
-
    <?php include 'includes/footer.html'; ?>
-
     <script>
         document.querySelectorAll(".donationBtn").forEach(function(button) {
             button.addEventListener("click", function() {

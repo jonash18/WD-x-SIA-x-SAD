@@ -5,6 +5,7 @@
 <head>
   <meta charset="utf-8">
   <title>PayPal Balance</title>
+  <link rel="icon" type="image/png" href="icon.png">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 

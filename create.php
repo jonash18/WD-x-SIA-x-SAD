@@ -18,29 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     ");
     $stmt->bind_param("ssssss", $name, $email, $mobile, $body, $website, $category);
     mysqli_report(MYSQLI_REPORT_OFF);
-    include 'email.php';
+
     if ($stmt->execute()) {
-
-        
-        $apiUrl = 'http://localhost/WEBDEV/testAPI/api_reports.php'; // API ENDPOINT NILA
-        $payload = json_encode([
-            'name' => $name,
-            'email' => $email,
-            'body' => $body
-        ]);
-        $opts = [
-            'http' => [
-                'method'  => 'POST',
-                'header'  => "Content-Type: application/json\r\nContent-Length: " . strlen($payload) . "\r\n",
-                'content' => $payload
-            ]
-        ];
-        $context  = stream_context_create($opts);
-        @file_get_contents($apiUrl, false, $context);
-
-        // 3. Redirect back
+        // ✅ Only redirect after successful insert
         header("Location: incoming.php?success=1");
-        
         exit;
     } else {
         if ($stmt->errno == 1062) {
@@ -51,6 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+    include 'email.php';
     $stmt->close();
     $conn->close();
 }
+?>

@@ -1,5 +1,5 @@
 <?php
-include 'connect.php'; // your PDO/mysqli connection
+include 'connect.php'; 
 
 $doc_id = $_POST['doc_id'] ?? null;
 $status = $_POST['status'] ?? null;

@@ -1,5 +1,5 @@
 const OLLAMA_API_URL = 'http://localhost:11434/api/generate';
-const OLLAMA_MODEL = 'qwen3:0.6b';
+const OLLAMA_MODEL = 'llama2:latest';
 
 export async function summarizeDocument(docText) {
   const panel = document.getElementById('aiSummary');

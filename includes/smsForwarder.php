@@ -17,6 +17,11 @@ $text     = $data['text']        ?? '';
 $sent     = $data['sentStamp']   ?? '';
 $received = $data['receivedStamp'] ?? '';
 $sim      = $data['sim']         ?? '';
+$from = preg_replace('/\D/', '', $from); // keep digits only
+if (substr($from, 0, 2) === '63') {
+    $from = '0' . substr($from, 2);
+}
+
 
 if ($from && $text) {
     $file = __DIR__ . '/replies.json'; // safer: absolute path
@@ -50,4 +55,3 @@ if ($from && $text) {
     http_response_code(400);
     echo json_encode(["status" => "error", "message" => "Missing parameters"]);
 }
-?>

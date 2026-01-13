@@ -8,8 +8,9 @@ include 'connect.php';
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard</title>
+    <title>CAMS - Reply</title>
     <link rel="stylesheet" href="includes/design.css">
+    <link rel="icon" type="image/png" href="icon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
@@ -47,6 +48,7 @@ include 'connect.php';
                 $replies = json_decode(file_get_contents($file), true);
 
                 if (is_array($replies) && count($replies) > 0) {
+                    $replies = array_reverse($replies);
                     foreach ($replies as $index => $reply) {
                         $receivedTime = !empty($reply['received_at']) ? date("M d, Y h:i A", $reply['received_at'] / 1000) : '';
 
@@ -85,12 +87,12 @@ include 'connect.php';
 
                                 <!-- Footer -->
                                 <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center mt-3">
-                                    <button type="button" class="btn btn-outline-danger btn-sm"
-                                        onclick="deleteReply('<?= $index; ?>')">
+                                    <button type="button"
+                                        class="btn btn-outline-danger btn-sm reply-card"
+                                        data-message="<?= htmlspecialchars($reply['message'], ENT_QUOTES); ?>"
+                                        onclick="deleteReply(this.dataset.message)">
                                         <i class="fas fa-trash"></i> Delete
                                     </button>
-
-
 
                                     <button type="button" class="btn btn-outline-primary btn-sm"
                                         onclick="toggleReplyBox('<?= $index; ?>')">
@@ -118,11 +120,7 @@ include 'connect.php';
                         </div>
             <?php
                     }
-                } else {
-                    echo "<p>No replies found in replies.json.</p>";
                 }
-            } else {
-                echo "<p>No replies.json file yet.</p>";
             }
             ?>
         </div>
@@ -171,10 +169,8 @@ include 'connect.php';
             });
     }
 
-    function deleteReply(id) {
-        if (!confirm("Are you sure you want to delete this reply?")) {
-            return;
-        }
+    function deleteReply(messageText) {
+        if (!confirm("Are you sure you want to delete this reply?")) return;
 
         fetch("deleteReply.php", {
                 method: "POST",
@@ -182,16 +178,31 @@ include 'connect.php';
                     "Content-Type": "application/x-www-form-urlencoded"
                 },
                 body: new URLSearchParams({
-                    index: id
+                    message: messageText
                 })
             })
-            .then(response => response.text())
+            .then(res => res.text())
             .then(data => {
                 alert("Delete response: " + data);
-                // Optionally remove the card from the DOM
-                const card = document.querySelector("#replyBox_" + id).closest(".main-content");
-                if (card) card.remove();
-            });
+
+                // Remove the card with matching message
+                const cards = document.querySelectorAll(".reply-card");
+                cards.forEach(card => {
+                    if (card.dataset.message === messageText) {
+                        card.closest(".main-content").remove();
+                    }
+                });
+
+                // Update badge immediately
+                const repliesBadge = document.getElementById("repliesBadge");
+                if (repliesBadge) {
+                    let count = parseInt(repliesBadge.textContent, 10) || 0;
+                    count = Math.max(0, count - 1);
+                    repliesBadge.textContent = count;
+                    repliesBadge.style.display = count > 0 ? "inline" : "none";
+                }
+            })
+            .catch(err => console.error("Delete failed:", err));
     }
 </script>
 

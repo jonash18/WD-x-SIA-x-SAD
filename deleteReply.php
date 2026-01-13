@@ -5,18 +5,22 @@ if (file_exists($file)) {
     $replies = json_decode(file_get_contents($file), true);
 
     if (is_array($replies)) {
-        $index = intval($_POST['index'] ?? -1);
-
-        if ($index >= 0 && $index < count($replies)) {
-            // Remove the entry
-            array_splice($replies, $index, 1);
-
-            // Save back to file
-            file_put_contents($file, json_encode($replies, JSON_PRETTY_PRINT));
-
-            echo "Reply deleted successfully.";
+        $message = trim($_POST['message'] ?? '');
+        if ($message !== '') {
+            $found = false;
+            foreach ($replies as $key => $reply) {
+                if (isset($reply['message']) && $reply['message'] === $message) {
+                    unset($replies[$key]);
+                    $replies = array_values($replies); // reindex
+                    file_put_contents($file, json_encode($replies, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+                    echo "Reply deleted successfully.";
+                    $found = true;
+                    break;
+                }
+            }
+            if (!$found) echo "Reply not found.";
         } else {
-            echo "Invalid index.";
+            echo "No message provided.";
         }
     } else {
         echo "Invalid JSON format.";

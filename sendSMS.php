@@ -5,7 +5,7 @@ $apiToken = "7a58240b7fe431f76f117d5c1ef5fb031e03cdef"; // your real API token
 $message  = $_POST['message'] ?? '';
 $number   = $_POST['phone_number'] ?? '';
 
-$url = "https://www.iprogsms.com/api/v1/sms_messages";
+$url = "https://www.iprogsms.com/api/v1/sms_messages/send_bulk";
 
 $data = [
     "api_token"    => $apiToken,
@@ -19,8 +19,8 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 // For testing only (disable SSL verification)
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+//curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
 $response = curl_exec($ch);
 

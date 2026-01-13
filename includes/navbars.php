@@ -42,13 +42,13 @@
   <a href="repliesTab.php"
     class="nav-link px-3 py-2 mb-2 <?= $current == 'repliesTab.php' ? 'active' : '' ?>">
     <i class="fas fa-inbox me-2"></i> Replies
-    <span id="repliesBadge" class="badge bg-secondary">0</span>
+    <!--<span id="repliesBadge" class="badge bg-secondary">0</span>-->
   </a>
 
   <a href="incoming.php"
     class="nav-link px-3 py-2 mb-2 <?= $current == 'incoming.php' ? 'active' : '' ?>">
     <i class="fas fa-inbox me-2"></i> Incoming
-    <span id="incomingBadge" class="badge bg-secondary">0</span>
+    <!--<span id="incomingBadge" class="badge bg-secondary">0</span>-->
   </a>
 
   <a href="feedback.php" class="nav-link px-3 py-2 mb-2 <?= $current == 'feedback.php' ? 'active' : '' ?>">
@@ -73,52 +73,3 @@
     <i class="fas fa-sign-out-alt me-2 "></i> Exit
   </a>
 </div>
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const incomingBadge = document.getElementById("incomingBadge");
-    const repliesBadge = document.getElementById("repliesBadge");
-
-    // Check API for incoming reports
-    async function checkIncoming() {
-      try {
-        const response = await fetch("http://localhost/WEBDEV/testAPI/api_reports.php");
-        const data = await response.json();
-
-        if (Array.isArray(data)) {
-          // Count only "open" complaints
-          const currentOpen = data.filter(r => r.status && r.status.toLowerCase() === "open").length;
-
-          incomingBadge.textContent = currentOpen;
-          incomingBadge.style.display = currentOpen > 0 ? "inline" : "none";
-        }
-      } catch (err) {
-        console.error("Incoming API check failed:", err);
-      }
-    }
-
-    // Check replies.json
-    async function checkReplies() {
-      try {
-        const response = await fetch("includes/replies.json");
-        const data = await response.json();
-
-        if (Array.isArray(data)) {
-          const totalReplies = data.length;
-
-          repliesBadge.textContent = totalReplies;
-          repliesBadge.style.display = totalReplies > 0 ? "inline" : "none";
-        }
-      } catch (err) {
-        console.error("Replies check failed:", err);
-      }
-    }
-
-    // Initial checks
-    checkIncoming();
-    checkReplies();
-
-    // Poll every 10 seconds
-    setInterval(checkIncoming, 10000);
-    setInterval(checkReplies, 10000);
-  });
-</script>
