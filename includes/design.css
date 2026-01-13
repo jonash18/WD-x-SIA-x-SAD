@@ -1,0 +1,80 @@
+.sidebar {
+    width: 200px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #182b3d;
+    padding-top: 1rem;
+}
+
+.sidebar a {
+    color: #fff;
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+}
+
+.sidebar a:hover {
+    background-color: #495057;
+}
+
+
+.doc-card:hover {
+    box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+}
+
+.doc-footer {
+    border-bottom-left-radius: 1.5rem !important;
+    border-bottom-right-radius: 1.5rem !important;
+    background: transparent !important;
+}
+
+
+.doc-row {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 2rem;
+}
+
+/* Sidebar spacing */
+@media (min-width: 992px) {
+    .main-content {
+        margin-left: 200px;
+        /* push content when sidebar is visible */
+    }
+}
+
+/* Flexbox sticky footer */
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    /* full viewport height */
+    margin: 0;
+    /* remove default body margin */
+}
+
+main {
+    flex: 1;
+    /* take up remaining space */
+}
+
+.nav-link {
+    color: #ccc;
+    transition: all 0.2s ease-in-out;
+    padding: 10px 15px;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav-link.active {
+    background-color: #ffffff;
+    /* Bootstrap primary */
+    color: #000000 !important;
+    font-weight: bold;
+}
