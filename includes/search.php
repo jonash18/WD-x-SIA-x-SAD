@@ -16,7 +16,10 @@ if (!empty($_GET['search'])) {
               OR d.email LIKE ? 
               OR d.body LIKE ? 
               OR c.category_name LIKE ? 
-              OR w.website_name LIKE ?";
+              OR w.website_name LIKE ?
+              OR d.doc_id LIKE ?
+              OR d.mobile_number LIKE?"
+              ;
 }
 
 $sql .= " ORDER BY d.created_at DESC";
@@ -25,7 +28,7 @@ $stmt = $conn->prepare($sql);
 
 if (!empty($search)) {
     $like = "%".$search."%";
-    $stmt->bind_param("sssss", $like, $like, $like, $like, $like);
+    $stmt->bind_param("sssssss", $like, $like, $like, $like, $like, $like, $like);
 }
 
 $stmt->execute();

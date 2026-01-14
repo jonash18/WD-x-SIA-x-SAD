@@ -125,13 +125,29 @@ include 'connect.php';
             ?>
         </div>
 </main>
+<?php include 'includes/modalNotif.html' ?>
 
 <?php include 'includes/footer.html'; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-
 <script>
+    function showModal(message) {
+        const modalMessage = document.getElementById("notificationMessage");
+        if (modalMessage) {
+            modalMessage.textContent = message;
+        }
+
+        const modalElement = document.getElementById("notificationModal");
+        if (modalElement) {
+            const notificationModal = new bootstrap.Modal(modalElement);
+            notificationModal.show();
+        } else {
+            // fallback if modal markup not found
+            alert(message);
+        }
+    }
+
     function toggleReplyBox(id) {
         const box = document.getElementById("replyBox_" + id);
         box.style.display = (box.style.display === "none") ? "block" : "none";
@@ -163,10 +179,18 @@ include 'connect.php';
                 method: "POST",
                 body: formData
             })
-            .then(response => response.text())
-            .then(data => {
-                alert("Response: " + data);
-            });
+            .then(response => response.json()) // parse JSON
+            .then(result => {
+                if (result.success) {
+                    showModal("Message sent!"); // ✅ success modal
+
+                } else {
+                    showModal("Message Failed"); // ❌ failure modal
+
+
+                }
+            })
+
     }
 
     function deleteReply(messageText) {
@@ -183,7 +207,8 @@ include 'connect.php';
             })
             .then(res => res.text())
             .then(data => {
-                alert("Delete response: " + data);
+                // Show result in modal instead of alert
+                showModal(data);
 
                 // Remove the card with matching message
                 const cards = document.querySelectorAll(".reply-card");
@@ -192,17 +217,11 @@ include 'connect.php';
                         card.closest(".main-content").remove();
                     }
                 });
-
-                // Update badge immediately
-                const repliesBadge = document.getElementById("repliesBadge");
-                if (repliesBadge) {
-                    let count = parseInt(repliesBadge.textContent, 10) || 0;
-                    count = Math.max(0, count - 1);
-                    repliesBadge.textContent = count;
-                    repliesBadge.style.display = count > 0 ? "inline" : "none";
-                }
             })
-            .catch(err => console.error("Delete failed:", err));
+            .catch(err => {
+                console.error("Delete failed:", err);
+                showModal("Delete failed: " + err.message);
+            });
     }
 </script>
 

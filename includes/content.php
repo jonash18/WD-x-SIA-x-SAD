@@ -179,7 +179,8 @@ $header = $tabName;
         <?php } ?>
     </div>
 </div>
-<?php include 'includes/modalNotif.html'; ?>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
     function markComplete(docId) {
@@ -205,37 +206,11 @@ $header = $tabName;
                 const btn = document.querySelector(`#completeBtn_${docId}`);
                 if (btn) {
                     btn.remove();
+
+
                 }
+                location.reload();
             })
             .catch(err => console.error("Error updating status:", err));
-    }
-    document.querySelectorAll(".donationBtn").forEach(function(button) {
-        button.addEventListener("click", function() {
-            const name = this.getAttribute("data-name");
-            const email = this.getAttribute("data-email");
-
-            fetch("donationMail.php", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify({
-                        name: name,
-                        email: email
-                    })
-                })
-                .then(response => response.text())
-                .then(data => showModal("Donation email sent successfully!"))
-                .catch(error => showModal("Error sending email: " + error));
-        });
-    });
-
-    function showModal(message) {
-        const modalMessage = document.getElementById("modalMessage");
-        modalMessage.textContent = message;
-
-        // Bootstrap modal instance
-        const donationModal = new bootstrap.Modal(document.getElementById("notificationModal"));
-        donationModal.show();
     }
 </script>

@@ -39,43 +39,64 @@ include 'includes/search.php';
 
 
 <?php include 'includes/bgcolor.html'; ?>
-    <?php include 'includes/navbars.php'; ?>
-    <main>
-        <?php include 'includes/content.php'; ?>
-    </main>
-    <?php include 'includes/modalNotif.html'; ?>
-   <?php include 'includes/footer.html'; ?>
-    <script>
-        document.querySelectorAll(".donationBtn").forEach(function(button) {
-            button.addEventListener("click", function() {
-                const name = this.getAttribute("data-name");
-                const email = this.getAttribute("data-email");
+<?php include 'includes/navbars.php'; ?>
+<main>
+    <?php include 'includes/content.php'; ?>
+</main>
+<?php include 'includes/modalNotif.html'; ?>
+<?php include 'includes/footer.html'; ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.querySelectorAll(".donationBtn").forEach(function(button) {
+        button.addEventListener("click", function() {
+            const name = this.getAttribute("data-name");
+            const email = this.getAttribute("data-email");
 
-                fetch("donationMail.php", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            name: name,
-                            email: email
-                        })
+            fetch("donationMail.php", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email
                     })
-                    .then(response => response.text())
-                    .then(data => showModal("Donation email sent successfully!"))
-                    .catch(error => showModal("Error sending email: " + error));
-            });
+                })
+                .then(response => response.text())
+                .then(data => {
+                    // Try parsing JSON if donationMail.php returns JSON
+                    let result;
+                    try {
+                        result = JSON.parse(data);
+                    } catch (e) {
+                        // If not valid JSON, just show raw response
+                        showNotification("Server response: " + data);
+                        return;
+                    }
+
+                    if (result.success) {
+                        showNotification("Donation email sent successfully!");
+                    } else {
+                        showNotification("Failed to send donation email.");
+                    }
+                })
+                .catch(error => {
+                    showNotification("Error sending email: " + error);
+                });
         });
+    });
 
-        function showModal(message) {
-            const modalMessage = document.getElementById("modalMessage");
-            modalMessage.textContent = message;
-
-            // Bootstrap modal instance
-            const donationModal = new bootstrap.Modal(document.getElementById("notificationModal"));
-            donationModal.show();
+    // ✅ Helper function to show your existing modal
+    function showNotification(message) {
+        const messageEl = document.getElementById("notificationMessage");
+        if (messageEl) {
+            messageEl.textContent = message;
         }
-    </script>
+        const modalEl = document.getElementById("notificationModal");
+        const modal = new bootstrap.Modal(modalEl);
+        modal.show();
+    }
+</script>
 
 
 
@@ -84,7 +105,7 @@ include 'includes/search.php';
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 </body>
 
 </html>

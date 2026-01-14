@@ -39,11 +39,11 @@
 </head>
 
 <body>
-    <?php include 'documentTable.php';  ?>
 
+    <?php include 'documentTable.php';  ?>
     <?php include 'websiteTable.php';  ?>
+
     </div>
-    <!-- Warning Modal -->
     <div class="modal fade" id="warningModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content container">
@@ -67,7 +67,6 @@
             </div>
         </div>
     </div>
-    <!-- Update Modal -->
     <div class="modal fade" id="updateModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content container">
@@ -91,7 +90,6 @@
             </div>
         </div>
     </div>
-    <!-- Success Modal -->
     <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content text-center">
@@ -107,8 +105,6 @@
         </div>
     </div>
     </div>
-
-    <!-- Error Modal -->
     <div class="modal fade" id="errorModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content text-center">
@@ -125,28 +121,29 @@
         </div>
     </div>
     </div>
-    <!-- Delete Warning Modal -->
     <div class="modal fade" id="deleteWarningModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
-            <form method="POST" action="delete.php">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Confirm Delete</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
+            <div class="modal-content container">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form method="POST" action="delete.php">
                     <div class="modal-body">
-                        <p>Are you sure you want to delete <strong id="deleteItemName"></strong>?</p>
                         <input type="hidden" name="doc_id" id="deleteDocId">
+                        <p class="text-danger fw-bold">
+                            Are you sure you want to delete <span id="deleteItemName"></span>?
+                        </p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                         <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-    <!-- Confirm Delete Modal -->
+    </div>
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content container">
@@ -167,7 +164,6 @@
             </div>
         </div>
     </div>
-    <!-- Delete Success Modal -->
     <div class="modal fade" id="deleteSuccessModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content text-center">
@@ -182,8 +178,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Delete Error Modal -->
     <div class="modal fade" id="deleteErrorModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content text-center">
@@ -200,15 +194,26 @@
             </div>
         </div>
     </div>
-
-
     <div class="text-center mt-3">
         <a href="logout.php" class="btn btn-danger">Logout</a>
     </div>
     </div>
-
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteWarningModalEl = document.getElementById('deleteWarningModal');
+
+        deleteWarningModalEl.addEventListener('show.bs.modal', function(event) {
+            const button = event.relatedTarget;
+            const docId = button.getAttribute('data-id');
+            const docName = button.getAttribute('data-name');
+
+            document.getElementById('deleteDocId').value = docId;
+            document.getElementById('deleteItemName').textContent = docName;
+        });
+    });
+</script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -247,27 +252,25 @@
         }
     });
     document.addEventListener('DOMContentLoaded', function() {
-        var deleteWarningModal = document.getElementById('deleteWarningModal');
-        var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+
+        var deleteWarningModalEl = document.getElementById('deleteWarningModal');
+        var deleteModalEl = document.getElementById('deleteModal');
         var confirmDeleteBtn = document.getElementById('confirmDelete');
 
-        var docId;
+        var deleteModal = new bootstrap.Modal(deleteModalEl);
 
-        // Capture doc_id from Delete button
-        deleteWarningModal.addEventListener('show.bs.modal', function(event) {
+        var docId = null;
+
+        deleteWarningModalEl.addEventListener('show.bs.modal', function(event) {
             var button = event.relatedTarget;
             docId = button.getAttribute('data-id');
         });
-
-        // If admin confirms, open Delete modal with data
         confirmDeleteBtn.addEventListener('click', function() {
-            var modalInstance = bootstrap.Modal.getInstance(deleteWarningModal);
-            modalInstance.hide(); // close warning modal
+            var warningInstance = bootstrap.Modal.getInstance(deleteWarningModalEl);
+            warningInstance.hide();
             document.getElementById('delete_doc_id').value = docId;
             deleteModal.show();
         });
-
-        // Auto-trigger success/error modals after backend redirect
         const urlParams = new URLSearchParams(window.location.search);
         const status = urlParams.get('status');
 

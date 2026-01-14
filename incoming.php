@@ -66,6 +66,7 @@ $openReports = array_filter($reports, function ($r) {
 ?>
 
 
+
 <!doctype html>
 <html lang="en">
 

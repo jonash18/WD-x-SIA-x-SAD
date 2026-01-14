@@ -84,8 +84,9 @@ if ($docId) {
         </div>
 
         <?php include 'includes/aiPanel.html'; ?>
-
         <?php include 'includes/reply.php'; ?>
+
+
       </div>
     </div>
   <?php } else { ?>
@@ -93,14 +94,13 @@ if ($docId) {
   <?php } ?>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 <script type="module">
   import {
     summarizeDocument
   } from './aiAPI.js';
   window.summarizeDocument = summarizeDocument;
-
- 
 </script>
 
 

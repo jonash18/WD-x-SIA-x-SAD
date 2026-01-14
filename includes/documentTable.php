@@ -46,19 +46,3 @@
             </tbody>
         </table>
     </div>
-
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const deleteModal = document.getElementById('deleteWarningModal');
-            deleteModal.addEventListener('show.bs.modal', function(event) {
-                const button = event.relatedTarget; // Button that triggered the modal
-                const docId = button.getAttribute('data-id');
-                const docName = button.getAttribute('data-name');
-
-                // Update modal fields
-                document.getElementById('deleteDocId').value = docId;
-                document.getElementById('deleteItemName').textContent = docName;
-            });
-        });
-    </script>

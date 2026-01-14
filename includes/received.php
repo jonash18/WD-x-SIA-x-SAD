@@ -22,13 +22,18 @@ $header = $tabName;
     }
 </style>
 <div class="container-fluid mt-4 px-lg-5 pb-5">
-    <h1 class="main-content mb-4 text-white"><?php echo htmlspecialchars($tabName); ?></h1>
+    <h1 class="main-content mb-4 text-white">
+        <?= htmlspecialchars($tabName); ?>
+    </h1>
+
     <div class="doc-col d-flex flex-column gap-4" id="openReportsContainer">
         <?php if (!empty($openReports)) { ?>
             <?php foreach ($openReports as $report) { ?>
                 <div class="main-content" style="max-width:100%;">
                     <div class="card doc-card h-100 border-0 shadow-lg rounded-3 overflow-hidden">
+
                         <?php
+                        // Category color logic
                         $category = strtolower($report['category_name']);
                         $categoryClass = 'text-primary';
                         if ($category === 'complaint') {
@@ -38,32 +43,47 @@ $header = $tabName;
                         } elseif ($category === 'feedback') {
                             $categoryClass = 'text-success';
                         }
+
+                        // Badge logic
+                        $status = strtolower($report['status']);
+                        $badgeClass = $status === 'open'
+                            ? 'bg-warning text-dark'
+                            : 'bg-white text-dark border';
+                        $badgeText = $status === 'open'
+                            ? 'New'
+                            : htmlspecialchars($report['status']);
                         ?>
+
+                        <!-- Card Header -->
                         <div class="card-header bg-light d-flex justify-content-between align-items-center border-0">
                             <span class="fw-bold <?= $categoryClass ?>">
-                                <?php echo htmlspecialchars($report['category_name']); ?>
+                                <?= htmlspecialchars($report['category_name']); ?>
                             </span>
-                            <span class="badge <?= strtolower($report['status']) === 'open' ?: 'bg-white'; ?> px-3 py-2 rounded-pill shadow-sm text-dark border">
-                                <?php echo htmlspecialchars($report['status']) === 'open' ? 'New' : htmlspecialchars($report['status']); ?>
+                            <span class="badge <?= $badgeClass ?> px-3 py-2 rounded-pill shadow-sm">
+                                <?= $badgeText; ?>
                             </span>
                         </div>
+
+                        <!-- Card Body -->
                         <div class="card-body">
                             <h4 class="card-title mb-1 fw-semibold text-dark">
-                                <?php echo htmlspecialchars($report['name']); ?>
+                                <?= htmlspecialchars($report['name']); ?>
                             </h4>
                             <h6 class="card-subtitle mb-3 text-muted">
-                                <i class="fas fa-envelope"></i> <?php echo htmlspecialchars($report['email']); ?>
+                                <i class="fas fa-envelope"></i> <?= htmlspecialchars($report['email']); ?>
                             </h6>
                             <p class="card-text text-secondary lh-lg" style="font-family: 'Georgia', serif;">
-                                <?php echo nl2br(htmlspecialchars($report['body'])); ?>
+                                <?= nl2br(htmlspecialchars($report['body'])); ?>
                             </p>
                         </div>
+
+                        <!-- Card Footer -->
                         <div class="card-footer bg-transparent border-0 text-end">
 
                             <!-- Spam Form -->
                             <form class="spam-form d-inline"
-                                data-id="<?php echo htmlspecialchars($report['feedback_id']); ?>"
-                                data-source="<?php echo htmlspecialchars($report['source']); ?>">
+                                data-id="<?= htmlspecialchars($report['feedback_id']); ?>"
+                                data-source="<?= htmlspecialchars($report['source']); ?>">
                                 <button type="submit" class="btn btn-dark px-4 py-2 shadow-sm fw-semibold">
                                     <i class="fas fa-ban"></i> Mark as Spam
                                 </button>
@@ -71,19 +91,19 @@ $header = $tabName;
 
                             <!-- Accept Form -->
                             <form method="POST" action="create.php" class="accept-form d-inline"
-                                data-id="<?php echo htmlspecialchars($report['feedback_id']); ?>"
-                                data-source="<?php echo htmlspecialchars($report['source']); ?>">
-                                <input type="hidden" name="feedback_id" value="<?php echo htmlspecialchars($report['feedback_id']); ?>">
-                                <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($report['user_id']); ?>">
-                                <input type="hidden" name="name" value="<?php echo htmlspecialchars($report['name']); ?>">
-                                <input type="hidden" name="email" value="<?php echo htmlspecialchars($report['email']); ?>">
-                                <input type="hidden" name="mobile_number" value="<?php echo htmlspecialchars($report['mobile_number']); ?>">
-                                <input type="hidden" name="body" value="<?php echo htmlspecialchars($report['body']); ?>">
-                                <input type="hidden" name="website_name" value="<?php echo htmlspecialchars($report['website_name']); ?>">
-                                <input type="hidden" name="category_name" value="<?php echo htmlspecialchars($report['category_name']); ?>">
-                                <input type="hidden" name="status" value="<?php echo htmlspecialchars($report['status']); ?>">
-                                <input type="hidden" name="created_at" value="<?php echo htmlspecialchars($report['created_at']); ?>">
-                                <input type="hidden" name="source" value="<?php echo htmlspecialchars($report['source']); ?>"><!-- 👈 added -->
+                                data-id="<?= htmlspecialchars($report['feedback_id']); ?>"
+                                data-source="<?= htmlspecialchars($report['source']); ?>">
+                                <input type="hidden" name="feedback_id" value="<?= htmlspecialchars($report['feedback_id']); ?>">
+                                <input type="hidden" name="user_id" value="<?= htmlspecialchars($report['user_id']); ?>">
+                                <input type="hidden" name="name" value="<?= htmlspecialchars($report['name']); ?>">
+                                <input type="hidden" name="email" value="<?= htmlspecialchars($report['email']); ?>">
+                                <input type="hidden" name="mobile_number" value="<?= htmlspecialchars($report['mobile_number']); ?>">
+                                <input type="hidden" name="body" value="<?= htmlspecialchars($report['body']); ?>">
+                                <input type="hidden" name="website_name" value="<?= htmlspecialchars($report['website_name']); ?>">
+                                <input type="hidden" name="category_name" value="<?= htmlspecialchars($report['category_name']); ?>">
+                                <input type="hidden" name="status" value="<?= htmlspecialchars($report['status']); ?>">
+                                <input type="hidden" name="created_at" value="<?= htmlspecialchars($report['created_at']); ?>">
+                                <input type="hidden" name="source" value="<?= htmlspecialchars($report['source']); ?>">
                                 <button type="submit" class="btn btn-dark px-4 py-2 shadow-sm fw-semibold">
                                     <i class="fas fa-check"></i> Accept
                                 </button>
@@ -99,6 +119,7 @@ $header = $tabName;
         <?php } ?>
     </div>
 </div>
+
 <script>
     // Function to render a report card (JS template)
     function renderReportCard(report) {
@@ -135,41 +156,38 @@ $header = $tabName;
             </p>
           </div>
           <div class="card-footer bg-transparent border-0 text-end">
-            <!-- Mark as Spam Form -->
             <!-- Spam Form -->
-<!-- Spam Form -->
-<form class="spam-form d-inline" 
-      data-id="<?php echo htmlspecialchars($report['feedback_id']); ?>" 
-      data-source="<?php echo htmlspecialchars($report['source']); ?>">
-    <button type="submit" class="btn btn-dark px-4 py-2 shadow-sm fw-semibold">
-        <i class="fas fa-ban"></i> Mark as Spam
-    </button>
-</form>
+            <form class="spam-form d-inline"
+                  data-id="${escapeHtml(report.feedback_id)}"
+                  data-source="${escapeHtml(report.source)}">
+              <button type="submit" class="btn btn-dark px-4 py-2 shadow-sm fw-semibold">
+                <i class="fas fa-ban"></i> Mark as Spam
+              </button>
+            </form>
 
-<!-- Accept Form -->
-<form method="POST" action="create.php" class="accept-form d-inline" 
-      data-id="<?php echo htmlspecialchars($report['feedback_id']); ?>" 
-      data-source="<?php echo htmlspecialchars($report['source']); ?>">
-    <input type="hidden" name="feedback_id" value="<?php echo htmlspecialchars($report['feedback_id']); ?>">
-    <input type="hidden" name="user_id" value="<?php echo htmlspecialchars($report['user_id']); ?>">
-    <input type="hidden" name="name" value="<?php echo htmlspecialchars($report['name']); ?>">
-    <input type="hidden" name="email" value="<?php echo htmlspecialchars($report['email']); ?>">
-    <input type="hidden" name="mobile_number" value="<?php echo htmlspecialchars($report['mobile_number']); ?>">
-    <input type="hidden" name="body" value="<?php echo htmlspecialchars($report['body']); ?>">
-    <input type="hidden" name="website_name" value="<?php echo htmlspecialchars($report['website_name']); ?>">
-    <input type="hidden" name="category_name" value="<?php echo htmlspecialchars($report['category_name']); ?>">
-    <input type="hidden" name="status" value="<?php echo htmlspecialchars($report['status']); ?>">
-    <input type="hidden" name="created_at" value="<?php echo htmlspecialchars($report['created_at']); ?>">
-    <input type="hidden" name="source" value="<?php echo htmlspecialchars($report['source']); ?>"><!-- 👈 added -->
-    <button type="submit" class="btn btn-dark px-4 py-2 shadow-sm fw-semibold">
-        <i class="fas fa-check"></i> Accept
-    </button>
-</form>
+            <!-- Accept Form -->
+            <form method="POST" action="create.php" class="accept-form d-inline">
+              <input type="hidden" name="feedback_id" value="${escapeHtml(report.feedback_id)}">
+              <input type="hidden" name="user_id" value="${escapeHtml(report.user_id)}">
+              <input type="hidden" name="name" value="${escapeHtml(report.name)}">
+              <input type="hidden" name="email" value="${escapeHtml(report.email)}">
+              <input type="hidden" name="mobile_number" value="${escapeHtml(report.mobile_number)}">
+              <input type="hidden" name="body" value="${escapeHtml(report.body)}">
+              <input type="hidden" name="website_name" value="${escapeHtml(report.website_name)}">
+              <input type="hidden" name="category_name" value="${escapeHtml(report.category_name)}">
+              <input type="hidden" name="status" value="${escapeHtml(report.status)}">
+              <input type="hidden" name="created_at" value="${escapeHtml(report.created_at)}">
+              <input type="hidden" name="source" value="${escapeHtml(report.source)}">
+              <button type="submit" class="btn btn-dark px-4 py-2 shadow-sm fw-semibold">
+                <i class="fas fa-check"></i> Accept
+              </button>
+            </form>
           </div>
         </div>
       </div>
     `;
     }
+
 
     // Escape HTML utility
     function escapeHtml(text) {
@@ -245,87 +263,133 @@ $header = $tabName;
 </script>
 
 <script>
-document.addEventListener("submit", async function(e) {
-    if (e.target.classList.contains("spam-form")) {
-        e.preventDefault();
-        const id = e.target.dataset.id;       // normalized feedback_id
-        const source = e.target.dataset.source; // "ISC" or "CampusWear"
+    document.addEventListener("submit", async function(e) {
+        if (e.target.classList.contains("spam-form")) {
+            e.preventDefault();
+            const id = e.target.dataset.id; // normalized feedback_id
+            const source = e.target.dataset.source; // "ISC" or "CampusWear"
 
-        try {
-            let apiUrl = "";
-            let bodyData = {};
+            try {
+                let apiUrl = "";
+                let bodyData = {};
 
-            if (source === "ISC") {
-                apiUrl = "https://unsatirical-sharda-calorimetric.ngrok-free.dev/ISC-Student-Organization-System/api-connections/sharedFeedbacks-api.php";
-                bodyData = { fbID: id, fbStatus: "spam" };
-            } else if (source === "CampusWear") {
-                apiUrl = "https://coletta-parecious-improperly.ngrok-free.dev/CampusWear/api/shared/feedback.php";
-                bodyData = { feedback_id: id, status: "spam" };
+                if (source === "ISC") {
+                    apiUrl = "https://unsatirical-sharda-calorimetric.ngrok-free.dev/ISC-Student-Organization-System/api-connections/sharedFeedbacks-api.php";
+                    bodyData = {
+                        fbID: id,
+                        fbStatus: "spam"
+                    };
+                } else if (source === "CampusWear") {
+                    apiUrl = "https://coletta-parecious-improperly.ngrok-free.dev/CampusWear/api/shared/feedback.php";
+                    bodyData = {
+                        feedback_id: id,
+                        status: "spam"
+                    };
+                }
+
+                const response = await fetch(apiUrl, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(bodyData)
+                });
+
+                const result = await response.json();
+
+                // ✅ Use your notification modal
+                const notificationMessage = document.getElementById("notificationMessage");
+                const notificationModal = new bootstrap.Modal(document.getElementById("notificationModal"));
+
+                if (result.success) {
+                    notificationMessage.textContent = "Marked as spam.";
+                    notificationModal.show();
+
+                    // Remove card only if success
+                    e.target.closest(".card").remove();
+                } else {
+                    notificationMessage.textContent = "Failed to mark spam: " + result.message;
+                    notificationModal.show();
+                    // 🚫 Do NOT remove card on failure
+                }
+            } catch (err) {
+                console.error("Error marking spam:", err);
+
+                const notificationMessage = document.getElementById("notificationMessage");
+                const notificationModal = new bootstrap.Modal(document.getElementById("notificationModal"));
+                notificationMessage.textContent = "An error occurred while marking spam.";
+                notificationModal.show();
             }
-
-            const response = await fetch(apiUrl, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(bodyData)
-            });
-
-            const result = await response.json();
-
-            if (result.success) {
-                e.target.closest(".card").remove();
-            } else {
-                alert("Failed: " + result.message);
-            }
-        } catch (err) {
-            console.error("Error marking spam:", err);
         }
-    }
-});
+    });
 
-document.addEventListener("submit", async function(e) {
-    if (e.target.classList.contains("accept-form")) {
-        e.preventDefault();
-        const id = e.target.dataset.id;       // normalized feedback_id
-        const source = e.target.dataset.source; // "ISC" or "CampusWear"
+    document.addEventListener("submit", async function(e) {
+        if (e.target.classList.contains("accept-form")) {
+            e.preventDefault();
+            const id = e.target.dataset.id;
+            const source = e.target.dataset.source;
 
-        try {
-            // 1️⃣ Insert into your DB via create.php
-            const formData = new FormData(e.target);
-            await fetch("create.php", {
-                method: "POST",
-                body: formData
-            });
+            try {
+                // Step 1: Insert into DB
+                const formData = new FormData(e.target);
+                const dbResponse = await fetch("create.php", {
+                    method: "POST",
+                    body: formData
+                });
+                const dbResult = await dbResponse.json();
 
-            // 2️⃣ Update status in correct API
-            let apiUrl = "";
-            let bodyData = {};
+                if (!dbResult.success) {
+                    // 🚫 Show modal, do not call API
+                    const notificationMessage = document.getElementById("notificationMessage");
+                    const notificationModal = new bootstrap.Modal(document.getElementById("notificationModal"));
+                    notificationMessage.textContent = dbResult.message;
+                    notificationModal.show();
+                    return;
+                }
 
-            if (source === "ISC") {
-                apiUrl = "https://unsatirical-sharda-calorimetric.ngrok-free.dev/ISC-Student-Organization-System/api-connections/sharedFeedbacks-api.php";
-                bodyData = { fbID: id, fbStatus: "received" };
-            } else if (source === "CampusWear") {
-                apiUrl = "https://coletta-parecious-improperly.ngrok-free.dev/CampusWear/api/shared/feedback.php";
-                bodyData = { feedback_id: id, status: "received" };
+                // Step 2: Only update API if DB insert succeeded
+                let apiUrl = "";
+                let bodyData = {};
+
+                if (source === "ISC") {
+                    apiUrl = "https://unsatirical-sharda-calorimetric.ngrok-free.dev/ISC-Student-Organization-System/api-connections/sharedFeedbacks-api.php";
+                    bodyData = {
+                        fbID: id,
+                        fbStatus: "received"
+                    };
+                } else if (source === "CampusWear") {
+                    apiUrl = "https://coletta-parecious-improperly.ngrok-free.dev/CampusWear/api/shared/feedback.php";
+                    bodyData = {
+                        feedback_id: id,
+                        status: "received"
+                    };
+                }
+
+                const response = await fetch(apiUrl, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(bodyData)
+                });
+
+                const result = await response.json();
+
+                const notificationMessage = document.getElementById("notificationMessage");
+                const notificationModal = new bootstrap.Modal(document.getElementById("notificationModal"));
+
+                if (result.success) {
+                    notificationMessage.textContent = "<?php echo htmlspecialchars($report['category_name']); ?> accepted successfully!";
+                    notificationModal.show();
+                    e.target.closest(".card").remove();
+                } else {
+                    notificationMessage.textContent = "Failed to update API: " + result.message;
+                    notificationModal.show();
+                }
+            } catch (err) {
+                console.error("Error accepting report:", err);
             }
-
-            const response = await fetch(apiUrl, {
-                method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(bodyData)
-            });
-
-            const result = await response.json();
-            console.log("API result:", result);
-
-            if (result.success) {
-                e.target.closest(".card").remove();
-            } else {
-                alert("Failed: " + result.message);
-            }
-        } catch (err) {
-            console.error("Error accepting report:", err);
         }
-    }
-});
+    });
 </script>
 </div>

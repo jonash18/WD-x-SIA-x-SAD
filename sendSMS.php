@@ -19,14 +19,21 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 // For testing only (disable SSL verification)
-//curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-//curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 
 $response = curl_exec($ch);
 
-if(curl_errno($ch)){
-    echo "cURL Error: " . curl_error($ch);
+$response = curl_exec($ch);
+
+if (curl_errno($ch)) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Message Failed'
+    ]);
 } else {
-    echo $response;
+    echo json_encode([
+        'success' => true,
+        'message' => 'Message sent!'
+    ]);
 }
-?>
