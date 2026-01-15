@@ -11,7 +11,7 @@ if (file_exists($file)) {
             foreach ($replies as $key => $reply) {
                 if (isset($reply['message']) && $reply['message'] === $message) {
                     unset($replies[$key]);
-                    $replies = array_values($replies); // reindex
+                    $replies = array_values($replies);
                     file_put_contents($file, json_encode($replies, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
                     echo "Reply deleted successfully.";
                     $found = true;

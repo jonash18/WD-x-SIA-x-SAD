@@ -35,17 +35,17 @@ $header = $tabName;
         <?php while ($row = mysqli_fetch_assoc($result)) { ?>
             <div class="main-content" style="max-width:100%;">
                 <div class="card  doc-card h-100 border-0 shadow-lg rounded-4 overflow-hidden" style="background-color: #ffffffe0; backdrop-filter: blur(20px);">
-                    <!-- Header -->
+
                     <?php
                     $category = strtolower($row['category_name']);
-                    $headerClass = 'bg-secondary text-dark'; // default
+                    $headerClass = 'bg-secondary text-dark';
 
                     if ($category === 'complaint') {
-                        $headerClass = 'text-danger'; // red header for complaints
+                        $headerClass = 'text-danger';
                     } elseif ($category === 'report') {
-                        $headerClass = 'text-dark'; // amber header for reports
+                        $headerClass = 'text-dark';
                     } elseif ($category === 'feedback') {
-                        $headerClass = 'text-success'; // green header for feedback
+                        $headerClass = 'text-success';
                     }
                     ?>
 
@@ -70,7 +70,7 @@ $header = $tabName;
 
                         </div>
                     </div>
-                    <!-- Body -->
+
                     <div class="text-white p-3">
 
                         <h4 class="card-title mb-1 fw-semibold text-dark">
@@ -85,9 +85,9 @@ $header = $tabName;
                         </p>
                     </div>
 
-                    <!-- Footer (all buttons aligned here) -->
+
                     <div class="card-footer bg-transparent border-0 d-flex justify-content-between align-items-center">
-                        <!-- Left side -->
+
                         <button type="button"
                             class="btn btn-outline-secondary btn-sm"
                             data-bs-toggle="modal"
@@ -95,13 +95,12 @@ $header = $tabName;
                             <i class="fas fa-info-circle "></i> More Info
                         </button>
 
-                        <!-- Right side -->
                         <?php
                         $category = strtolower(trim($row['category_name']));
                         $status   = strtolower(trim($row['status']));
 
                         if ($status === 'completed') { ?>
-                            <!-- Show Ask For Donation if status is Completed -->
+
                             <button type="button"
                                 class="btn btn-outline-success donationBtn px-4 py-2"
                                 data-name="<?= htmlspecialchars($row['name']); ?>"
@@ -109,13 +108,13 @@ $header = $tabName;
                                 <i class="fas fa-hand-holding-heart"></i> Ask For Donation
                             </button>
                         <?php } elseif ($category === 'complaint' || $category === 'report') { ?>
-                            <!-- Otherwise show Contact Now for complaint/report -->
+
                             <a href="docViewer.php?doc_id=<?= urlencode($row['doc_id']); ?>"
                                 class="btn btn-dark contactBtn px-3 py-2 shadow-sm">
                                 <i class="fas fa-paper-plane"></i> Contact Now
                             </a>
                         <?php } elseif ($category === 'feedback') { ?>
-                            <!-- Feedback still shows Ask For Donation -->
+
                             <button type="button"
                                 class="btn btn-outline-success donationBtn px-4 py-2"
                                 data-name="<?= htmlspecialchars($row['name']); ?>"
@@ -131,7 +130,6 @@ $header = $tabName;
                 <div class="modal-dialog modal-dialog-centered modal-lg">
                     <div class="modal-content border-0 shadow-lg rounded-3">
 
-                        <!-- Header -->
                         <div class="modal-header bg-dark text-white">
                             <h5 class="modal-title fw-bold">
                                 <i class="fas fa-file-alt me-2"></i> Document Details
@@ -139,7 +137,6 @@ $header = $tabName;
                             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
-                        <!-- Body -->
                         <div class="modal-body bg-light">
                             <div class="row mb-3">
                                 <div class="col-md-6">
@@ -167,7 +164,6 @@ $header = $tabName;
                             </div>
                         </div>
 
-                        <!-- Footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal">
                                 <i class="fas fa-times "></i> Close

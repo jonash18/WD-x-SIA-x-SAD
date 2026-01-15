@@ -37,27 +37,26 @@
     gap: 2rem;
 }
 
-/* Sidebar spacing */
 @media (min-width: 992px) {
     .main-content {
         margin-left: 200px;
-        /* push content when sidebar is visible */
+
     }
 }
 
-/* Flexbox sticky footer */
+
 body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    /* full viewport height */
+
     margin: 0;
-    /* remove default body margin */
+
 }
 
 main {
     flex: 1;
-    /* take up remaining space */
+
 }
 
 .nav-link {
@@ -74,7 +73,7 @@ main {
 
 .nav-link.active {
     background-color: #ffffff;
-    /* Bootstrap primary */
+
     color: #000000 !important;
     font-weight: bold;
 }

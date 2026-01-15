@@ -62,7 +62,7 @@ try {
 </html>
 EOD;
 
-  // Plain-text fallback
+  
   $mail->AltBody = "Hello $name,\n\n"
     . "Your document for category '$category' has been accepted.\n\n"
     . "Details:\n$body\n\n"
@@ -72,13 +72,13 @@ EOD;
     . "Mobile: http://192.168.100.23/WEBDEV/donation.php\n\n"
     . "We truly appreciate your kindness!";
 
-  // Send
+  
 
   $mail->send();
   header('Content-Type: application/json');
   echo json_encode(["success" => true]);
 } catch (Exception $e) {
-  // ❌ Return only { success: false }
+  
   header('Content-Type: application/json');
   echo json_encode(["success" => false]);
 }

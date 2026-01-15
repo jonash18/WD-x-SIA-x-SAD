@@ -10,8 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $body     = $_POST['body'] ?? '';
     $website  = $_POST['website_name'] ?? '';
     $category = $_POST['category_name'] ?? '';
-
-    // Check duplicate
+    
     $check = $conn->prepare("SELECT 1 FROM documents WHERE name=? AND email=? AND body=?");
     $check->bind_param("sss", $name, $email, $body);
     $check->execute();

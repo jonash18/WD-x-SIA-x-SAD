@@ -51,7 +51,6 @@
         document.getElementById('donation-form').classList.add('d-none');
         document.getElementById('donation-success').classList.remove('d-none');
 
-        // Refresh balance after donation
         fetch('paypalBalance.php')
           .then(res => res.text())
           .then(balance => {

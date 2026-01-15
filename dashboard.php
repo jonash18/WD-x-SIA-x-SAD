@@ -23,7 +23,6 @@ $result = executeQuery($getQuery);
 $tabName = "All Documents";
 include 'includes/search.php';
 ?>
-
 <!doctype html>
 <html lang="en">
 
@@ -64,12 +63,11 @@ include 'includes/search.php';
                 })
                 .then(response => response.text())
                 .then(data => {
-                    // Try parsing JSON if donationMail.php returns JSON
+
                     let result;
                     try {
                         result = JSON.parse(data);
                     } catch (e) {
-                        // If not valid JSON, just show raw response
                         showNotification("Server response: " + data);
                         return;
                     }

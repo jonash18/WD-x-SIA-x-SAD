@@ -18,7 +18,7 @@
     <div class="container">
         <div class="row">
             <div class="col d-flex justify-content-center align-items-center vh-100">
-                <h1 class="card-title p-4 text-white">Customer Assistance and Feedback Handler</h1>
+                <h1 class="card-title p-4 text-white">Customer Assistance Management Site</h1>
                 <a href="dashboard.php" class="btn btn-light p-4 rounded-5">
                     <h4>Go to dashboard</h4>
                 </a>

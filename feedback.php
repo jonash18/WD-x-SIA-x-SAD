@@ -75,7 +75,7 @@ $tabName = "Feedback";
       const modalMessage = document.getElementById("modalMessage");
       modalMessage.textContent = message;
 
-      // Bootstrap modal instance
+      
       const donationModal = new bootstrap.Modal(document.getElementById("notificationModal"));
       donationModal.show();
     }

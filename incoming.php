@@ -18,7 +18,7 @@ $reports = [];
 $mapped1 = array_map(function ($r) {
   return [
     'feedback_id'   => $r['fbID'] ?? '',
-    'user_id'       => $r['mbID'] ?? '0', // fallback if not provided
+    'user_id'       => $r['mbID'] ?? '0', 
     'name'          => $r['fbName'] ?? '',
     'email'         => $r['mbEmail'] ?? '',
     'mobile_number' => $r['mbMobileNo'] ?? '',
@@ -26,7 +26,7 @@ $mapped1 = array_map(function ($r) {
     'website_name'  => $r['fbWebsiteName'] ?? '',
     'category_name' => $r['fbCategory'] ?? '',
     'status'        => $r['fbStatus'] ?? '',
-    'created_at'    => $r['fbCreatedAt'] ?? '', // if available
+    'created_at'    => $r['fbCreatedAt'] ?? '', 
      'source'        => 'ISC'
   ];
 }, $complaints1 ?? []);

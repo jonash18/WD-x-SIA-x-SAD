@@ -1,4 +1,3 @@
-<!-- Mobile Navbar -->
 <?php $current = basename($_SERVER['PHP_SELF']); ?>
 
 
@@ -13,7 +12,7 @@
   </div>
 </nav>
 
-<!-- Mobile Offcanvas Sidebar -->
+
 <div class="offcanvas offcanvas-start text-white d-lg-none" style="background-color: #023e56c0;backdrop-filter: blur(10px);" id="mobileSidebar">
   <div class="offcanvas-header border-bottom">
     <h5 class="offcanvas-title fw-bold">Menu</h5>
@@ -31,7 +30,7 @@
   </div>
 </div>
 
-<!-- Desktop Sidebar -->
+
 <div class="sidebar d-none d-lg-flex flex-column text-white shadow-lg rounded-4 m-2 py-3" style="background-color: #023e56c0; width: 220px; height: calc(95vh - 2rem); position: fixed; backdrop-filter: blur(10px);">
   <h4 class="fw-bold mb-4 text-center border-bottom pb-3">Dashboard</h4>
 
@@ -42,13 +41,11 @@
   <a href="repliesTab.php"
     class="nav-link px-3 py-2 mb-2 <?= $current == 'repliesTab.php' ? 'active' : '' ?>">
     <i class="fas fa-inbox me-2"></i> Replies
-    <!--<span id="repliesBadge" class="badge bg-secondary">0</span>-->
   </a>
 
   <a href="incoming.php"
     class="nav-link px-3 py-2 mb-2 <?= $current == 'incoming.php' ? 'active' : '' ?>">
     <i class="fas fa-inbox me-2"></i> Incoming
-    <!--<span id="incomingBadge" class="badge bg-secondary">0</span>-->
   </a>
 
   <a href="feedback.php" class="nav-link px-3 py-2 mb-2 <?= $current == 'feedback.php' ? 'active' : '' ?>">
